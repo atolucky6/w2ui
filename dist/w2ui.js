@@ -1,4 +1,4 @@
-/* w2ui 2.0.x (nightly) (12/14/2022, 9:51:23 PM) (c) http://w2ui.com, vitmalina@gmail.com */
+/* w2ui 2.0.x (nightly) (12/12/2022, 10:01:31 AM) (c) http://w2ui.com, vitmalina@gmail.com */
 /**
  * Part of w2ui 2.0 library
  *  - Dependencies: w2utils
@@ -3126,10 +3126,6 @@ class Dialog extends w2base {
                 this.center(undefined, undefined, true)
             }
         }
-        // event handler for key down
-        this.handleKeyDown = (event) => {
-            this.keydown(event)
-        }
     }
     /**
      * Sample calls
@@ -3371,7 +3367,9 @@ class Dialog extends w2base {
         options._last_focus = document.activeElement
         // keyboard events
         if (options.keyboard) {
-            query(document.body).on('keydown', this.handleKeyDown)
+            query(document.body).on('keydown', (event) => {
+                this.keydown(event)
+            })
         }
         query(window).on('resize', this.handleResize)
         // initialize move
@@ -3516,10 +3514,6 @@ class Dialog extends w2base {
         let edata = this.trigger('close', { target: 'popup' })
         if (edata.isCancelled === true) return
         let cleanUp = () => {
-            // unsubscribe events
-            if (this.options.keyboard) {
-                query(document.body).on('keydown', this.handleKeyDown)
-            }
             // return template
             query('#w2ui-popup').remove()
             // restore active
